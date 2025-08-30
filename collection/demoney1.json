@@ -1,0 +1,2944 @@
+{
+	"info": {
+		"_postman_id": "607b8363-9576-49f7-8b68-14082c0cd0a0",
+		"name": "Jannatul-",
+		"description": "Comprehensive test collection for Dmoney API with extensive positive and negative test cases for all endpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25614060",
+		"_collection_link": "https://grey-rocket-604836.postman.co/workspace/nz_bd~47d3948e-6cad-4eed-833d-73fdc40b5243/collection/25614060-607b8363-9576-49f7-8b68-14082c0cd0a0?action=share&source=collection_link&creator=25614060"
+	},
+	"item": [
+		{
+			"name": "01. Authentication & User Management",
+			"item": [
+				{
+					"name": "Positive Cases",
+					"item": [
+						{
+							"name": "TC001 - Admin Login (Positive)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Response contains token\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('token');",
+											"    pm.collectionVariables.set(\"adminToken\", jsonData.token);",
+											"    pm.environment.set(\"adminToken\", jsonData.token);",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 2000ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"admin@roadtocareer.net\",\n    \"password\": \"1234\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC002 - Create Agent (Positive)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"pm.test(\"Agent created successfully\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('user');",
+											"    pm.collectionVariables.set(\"agentPhone\", jsonData.user.phone_number);",
+											"    pm.environment.set(\"agentPhone\", jsonData.user.phone_number);",
+											"});",
+											"",
+											"pm.test(\"User role is Agent\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.user.role).to.eql('Agent');",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "bearer {{adminToken}}"
+									},
+									{
+										"key": "X-AUTH-SECRET-KEY",
+										"value": "{{partnerKey}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Test Agent\",\n    \"email\": \"agent{{random_email_id}}@test.com\",\n    \"password\": \"1234\",\n    \"phone_number\": \"{{phone}}\",\n    \"nid\": \"{{nid}}\",\n    \"role\": \"Agent\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/create",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC003 - Create Customer 1 (Positive)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"pm.test(\"Customer created successfully\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('user');",
+											"    pm.collectionVariables.set(\"customer1Phone\", jsonData.user.phone_number);",
+											"    pm.environment.set(\"customer1Phone\", jsonData.user.phone_number);",
+											"});",
+											"",
+											"pm.test(\"User role is Customer\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.user.role).to.eql('Customer');",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "bearer {{adminToken}}"
+									},
+									{
+										"key": "X-AUTH-SECRET-KEY",
+										"value": "{{partnerKey}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Test Customer 1\",\n    \"email\": \"agent{{random_email_id}}@test.com\",\n    \"password\": \"1234\",\n    \"phone_number\": \"{{phone}}\",\n    \"nid\": \"{{nid}}\",\n    \"role\": \"Customer\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/create",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC004 - Create Customer 2 (Positive)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"pm.test(\"Customer created successfully\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('user');",
+											"    pm.collectionVariables.set(\"customer2Phone\", jsonData.user.phone_number);",
+											"    pm.environment.set(\"customer2Phone\", jsonData.user.phone_number);",
+											"});",
+											"",
+											"pm.test(\"User role is Customer\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.user.role).to.eql('Customer');",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "bearer {{adminToken}}"
+									},
+									{
+										"key": "X-AUTH-SECRET-KEY",
+										"value": "{{partnerKey}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Test Customer 2\",\n    \"email\": \"agent{{random_email_id}}@test.com\",\n    \"password\": \"1234\",\n    \"phone_number\": \"{{phone}}\",\n    \"nid\": \"{{nid}}\",\n    \"role\": \"Customer\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/create",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC005 - Create Merchant (Positive)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"pm.test(\"Merchant created successfully\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('user');",
+											"    pm.collectionVariables.set(\"merchantPhone\", jsonData.user.phone_number);",
+											"    pm.environment.set(\"merchantPhone\", jsonData.user.phone_number);",
+											"});",
+											"",
+											"pm.test(\"User role is Merchant\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.user.role).to.eql('Merchant');",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "bearer {{adminToken}}"
+									},
+									{
+										"key": "X-AUTH-SECRET-KEY",
+										"value": "{{partnerKey}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Test Merchant\",\n    \"email\": \"agent{{random_email_id}}@test.com\",\n    \"password\": \"1234\",\n    \"phone_number\": \"{{phone}}\",\n    \"nid\": \"{{nid}}\",\n    \"role\": \"Merchant\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/create",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"create"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									"const bdOperators = {",
+									"    'Grameenphone': ['017', '013'],",
+									"    'Robi': ['018', '019'],",
+									"    'Banglalink': ['014', '019'],",
+									"    'Teletalk': ['015'],",
+									"    'Airtel': ['016', '011']",
+									"};",
+									"",
+									"",
+									"const validPrefixes = Object.values(bdOperators).flat();",
+									"",
+									"",
+									"function generateRandomDigits(length) {",
+									"    let digits = '';",
+									"    for (let i = 0; i < length; i++) {",
+									"        digits += Math.floor(Math.random() * 10);",
+									"    }",
+									"    return digits;",
+									"}",
+									"",
+									"",
+									"function generatePhoneNumber() {",
+									"    const prefix = validPrefixes[Math.floor(Math.random() * validPrefixes.length)];",
+									"    const remainingDigits = generateRandomDigits(8);",
+									"    return prefix + remainingDigits;",
+									"}",
+									"",
+									"",
+									"function generateNID() {",
+									"    const firstDigit = Math.floor(Math.random() * 9) + 1; // 1-9, not starting with 0",
+									"    const remainingDigits = generateRandomDigits(7);",
+									"    return firstDigit + remainingDigits;",
+									"}",
+									"",
+									"",
+									"function generateAgentId() {",
+									"    return Math.floor(Math.random() * 9000) + 1000; // 4-digit number",
+									"}",
+									"",
+									"",
+									"pm.environment.set('phone', generatePhoneNumber());",
+									"pm.environment.set('nid', generateNID());",
+									"",
+									"pm.environment.set('random_email_id', Math.floor(Math.random() * 10000));",
+									"",
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Negative Cases - Authentication",
+					"item": [
+						{
+							"name": "TC006 - Login with Invalid Password (Negative)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {",
+											"    pm.response.to.have.status(401);",
+											"});",
+											"",
+											"pm.test(\"Error message for invalid credentials\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('message');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"admin@roadtocareer.net\",\n    \"password\": \"wrongpassword\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC007 - Login with Empty Email (Negative)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"pm.test(\"Validation error for empty email\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('message');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"\",\n    \"password\": \"1234\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC008 - Login with Empty Password (Negative)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"pm.test(\"Validation error for empty password\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('message');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"admin@roadtocareer.net\",\n    \"password\": \"\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC009 - Login with Invalid Email Format (Negative)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400 or 404\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([404, 401]);",
+											"});",
+											"",
+											"pm.test(\"Error message for invalid email format\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('message');",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"invalid-email-format\",\n    \"password\": \"1234\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC010 - Login with Non-existent Email (Negative)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											"",
+											"pm.test(\"Error message for non-existent user\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('message');",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"nonexistent@email.com\",\n    \"password\": \"1234\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC011 - Login with Malformed JSON (Negative)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"pm.test(\"Error message for malformed JSON\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.error).to.have.property('message');",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"admin@roadtocareer.net\",\n    \"password\": \"1234\""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Negative Cases - User Creation",
+					"item": [
+						{
+							"name": "TC012 - Create User without Authorization (Negative)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {",
+											"    pm.response.to.have.status(401);",
+											"});",
+											"",
+											"pm.test(\"Unauthorized error message\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('message');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Test User\",\n    \"email\": \"test@test.com\",\n    \"password\": \"1234\",\n    \"phone_number\": \"01234567890\",\n    \"nid\": \"123456789\",\n    \"role\": \"Customer\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/create",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC013 - Create User with Invalid Partner Key (Negative)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401 or 403\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([401, 403]);",
+											"});",
+											"",
+											"pm.test(\"Invalid partner key error\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('message');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "bearer {{adminToken}}"
+									},
+									{
+										"key": "X-AUTH-SECRET-KEY",
+										"value": "INVALID_KEY"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Test User\",\n    \"email\": \"test@test.com\",\n    \"password\": \"1234\",\n    \"phone_number\": \"01234567890\",\n    \"nid\": \"1234567890\",\n    \"role\": \"Customer\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/create",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC014 - Create User with Short NID (Negative)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"pm.test(\"Validation error for short NID\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('message');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "bearer {{adminToken}}"
+									},
+									{
+										"key": "X-AUTH-SECRET-KEY",
+										"value": "{{partnerKey}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Test User\",\n    \"email\": \"test@test.com\",\n    \"password\": \"1234\",\n    \"phone_number\": \"01234567890\",\n    \"nid\": \"123\",\n    \"role\": \"Customer\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/create",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC015 - Create User with Invalid Role (Negative)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"pm.test(\"Validation error for invalid role\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('message');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "bearer {{adminToken}}"
+									},
+									{
+										"key": "X-AUTH-SECRET-KEY",
+										"value": "{{partnerKey}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Test User\",\n    \"email\": \"test@test.com\",\n    \"password\": \"1234\",\n    \"phone_number\": \"01234567890\",\n    \"nid\": \"1234567890\",\n    \"role\": \"InvalidRole\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/create",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC016 - Create User with Missing Required Fields (Negative)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"pm.test(\"Validation error for missing fields\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('message');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "bearer {{adminToken}}"
+									},
+									{
+										"key": "X-AUTH-SECRET-KEY",
+										"value": "{{partnerKey}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Test User\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/create",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"create"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "02. Transaction Management",
+			"item": [
+				{
+					"name": "Positive Cases - Core Transactions",
+					"item": [
+						{
+							"name": "TC017 - System Deposit to Agent (Positive)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"pm.test(\"Transaction successful\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('message');",
+											"    pm.expect(jsonData).to.have.property('trnxId');",
+											"    pm.collectionVariables.set(\"systemDepositTrnxId\", jsonData.trnxId);",
+											"});",
+											"",
+											"pm.test(\"Transaction amount is correct\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.currentBalance).to.be.above(0);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "bearer {{adminToken}}"
+									},
+									{
+										"key": "X-AUTH-SECRET-KEY",
+										"value": "{{partnerKey}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"from_account\": \"SYSTEM\",\n    \"to_account\": \"{{agentPhone}}\",\n    \"amount\": 5000\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/transaction/deposit",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"transaction",
+										"deposit"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC018 - Check Agent Balance (Positive)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Balance is greater than 0\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('balance');",
+											"    pm.expect(jsonData.balance).to.be.above(0);",
+											"    pm.collectionVariables.set(\"agentBalance\", jsonData.balance);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "bearer {{adminToken}}"
+									},
+									{
+										"key": "X-AUTH-SECRET-KEY",
+										"value": "{{partnerKey}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/transaction/balance/{{agentPhone}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"transaction",
+										"balance",
+										"{{agentPhone}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC019 - Agent Deposit to Customer 1 (Positive)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"pm.test(\"Transaction successful\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('message');",
+											"    pm.expect(jsonData).to.have.property('trnxId');",
+											"    pm.collectionVariables.set(\"agentDepositTrnxId\", jsonData.trnxId);",
+											"});",
+											"",
+											"pm.test(\"Transaction amount is correct\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.currentBalance).to.be.above(0);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "bearer {{adminToken}}"
+									},
+									{
+										"key": "X-AUTH-SECRET-KEY",
+										"value": "{{partnerKey}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"from_account\": \"{{agentPhone}}\",\n    \"to_account\": \"{{customer1Phone}}\",\n    \"amount\": 1500\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/transaction/deposit",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"transaction",
+										"deposit"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC020 - Send Money Customer 1 to Customer 2 (Positive)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"pm.test(\"Send money transaction successful\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('message');",
+											"    pm.expect(jsonData).to.have.property('trnxId');",
+											"    pm.collectionVariables.set(\"sendMoneyTrnxId\", jsonData.trnxId);",
+											"});",
+											"",
+											"pm.test(\"Transaction fee applied correctly\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('fee');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "bearer {{adminToken}}"
+									},
+									{
+										"key": "X-AUTH-SECRET-KEY",
+										"value": "{{partnerKey}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"from_account\": \"{{customer1Phone}}\",\n    \"to_account\": \"{{customer2Phone}}\",\n    \"amount\": 500\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/transaction/sendmoney",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"transaction",
+										"sendmoney"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC021 - Customer 2 Withdraw to Agent (Positive)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"pm.test(\"Withdraw transaction successful\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('message');",
+											"    pm.expect(jsonData).to.have.property('trnxId');",
+											"    pm.collectionVariables.set(\"withdrawTrnxId\", jsonData.trnxId);",
+											"});",
+											"",
+											"pm.test(\"Transaction fee applied correctly\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('fee');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "bearer {{adminToken}}"
+									},
+									{
+										"key": "X-AUTH-SECRET-KEY",
+										"value": "{{partnerKey}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"from_account\": \"{{customer2Phone}}\",\n    \"to_account\": \"{{agentPhone}}\",\n    \"amount\": 200\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/transaction/withdraw",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"transaction",
+										"withdraw"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC022 - Customer 2 Payment to Merchant (Positive)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"pm.test(\"Payment transaction successful\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('message');",
+											"    pm.expect(jsonData).to.have.property('trnxId');",
+											"    pm.collectionVariables.set(\"paymentTrnxId\", jsonData.trnxId);",
+											"});",
+											"",
+											"pm.test(\"Payment fee applied correctly\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('fee');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "bearer {{adminToken}}"
+									},
+									{
+										"key": "X-AUTH-SECRET-KEY",
+										"value": "{{partnerKey}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"from_account\": \"{{customer2Phone}}\",\n    \"to_account\": \"{{merchantPhone}}\",\n    \"amount\": 250\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/transaction/payment",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"transaction",
+										"payment"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC023 - Payment with Discount (Positive)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"pm.test(\"Payment with discount successful\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('message');",
+											"    pm.expect(jsonData).to.have.property('trnxId');",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "bearer {{adminToken}}"
+									},
+									{
+										"key": "X-AUTH-SECRET-KEY",
+										"value": "{{partnerKey}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"from_account\": \"{{customer1Phone}}\",\n    \"to_account\": \"{{merchantPhone}}\",\n    \"discount_code\": \"top5\",\n    \"discount_amount\": 10,\n    \"amount\": 300\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/transaction/payment",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"transaction",
+										"payment"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Positive Cases - Query Operations",
+					"item": [
+						{
+							"name": "TC024 - Check Customer 1 Balance (Positive)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Customer has balance\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('balance');",
+											"    pm.collectionVariables.set(\"customer1Balance\", jsonData.balance);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "bearer {{adminToken}}"
+									},
+									{
+										"key": "X-AUTH-SECRET-KEY",
+										"value": "{{partnerKey}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/transaction/balance/{{customer1Phone}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"transaction",
+										"balance",
+										"{{customer1Phone}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC025 - Check Customer 1 Transaction Statement (Positive)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Statement contains transactions\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('transactions');",
+											"    pm.expect(jsonData.transactions).to.be.an('array');",
+											"    pm.expect(jsonData.transactions.length).to.be.above(0);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "bearer {{adminToken}}"
+									},
+									{
+										"key": "X-AUTH-SECRET-KEY",
+										"value": "{{partnerKey}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/transaction/statement/{{customer1Phone}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"transaction",
+										"statement",
+										"{{customer1Phone}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC026 - Check Customer 2 Balance (Positive)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Customer has balance\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('balance');",
+											"    pm.collectionVariables.set(\"customer2Balance\", jsonData.balance);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "bearer {{adminToken}}"
+									},
+									{
+										"key": "X-AUTH-SECRET-KEY",
+										"value": "{{partnerKey}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/transaction/balance/{{customer2Phone}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"transaction",
+										"balance",
+										"{{customer2Phone}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC027 - Check Customer 2 Transaction Statement (Positive)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Statement contains transactions\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('transactions');",
+											"    pm.expect(jsonData.transactions).to.be.an('array');",
+											"    pm.expect(jsonData.transactions.length).to.be.above(0);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "bearer {{adminToken}}"
+									},
+									{
+										"key": "X-AUTH-SECRET-KEY",
+										"value": "{{partnerKey}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/transaction/statement/{{customer2Phone}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"transaction",
+										"statement",
+										"{{customer2Phone}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC028 - Check Merchant Balance (Positive)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Merchant received payment\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('balance');",
+											"    pm.expect(jsonData.balance).to.be.above(0);",
+											"    pm.collectionVariables.set(\"merchantBalance\", jsonData.balance);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "bearer {{adminToken}}"
+									},
+									{
+										"key": "X-AUTH-SECRET-KEY",
+										"value": "{{partnerKey}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/transaction/balance/{{merchantPhone}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"transaction",
+										"balance",
+										"{{merchantPhone}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC029 - Search Transaction by ID (Positive)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Transaction found successfully\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('transactions').that.is.an('array').that.is.not.empty;",
+											"    ",
+											"    jsonData.transactions.forEach(function(transaction) {",
+											"        pm.expect(transaction).to.have.property('trnxId');",
+											"    });",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "bearer {{adminToken}}"
+									},
+									{
+										"key": "X-AUTH-SECRET-KEY",
+										"value": "{{partnerKey}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/transaction/search/{{paymentTrnxId}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"transaction",
+										"search",
+										"{{paymentTrnxId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC030 - Get Transaction List (Positive)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Transaction list retrieved\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('transactions');",
+											"    pm.expect(jsonData.transactions).to.be.an('array');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "bearer {{adminToken}}"
+									},
+									{
+										"key": "X-AUTH-SECRET-KEY",
+										"value": "{{partnerKey}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/transaction/list?limit=20",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"transaction",
+										"list"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "20"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Negative Cases - Transaction Authorization",
+					"item": [
+						{
+							"name": "TC031 - Deposit without Authorization (Negative)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {",
+											"    pm.response.to.have.status(401);",
+											"});",
+											"",
+											"pm.test(\"Unauthorized error message\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('message');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"from_account\": \"SYSTEM\",\n    \"to_account\": \"{{agentPhone}}\",\n    \"amount\": 1000\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/transaction/deposit",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"transaction",
+										"deposit"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC032 - Withdraw without Authorization (Negative)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {",
+											"    pm.response.to.have.status(401);",
+											"});",
+											"",
+											"pm.test(\"Unauthorized error message\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('message');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"from_account\": \"{{customer1Phone}}\",\n    \"to_account\": \"{{agentPhone}}\",\n    \"amount\": 100\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/transaction/withdraw",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"transaction",
+										"withdraw"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC033 - Send Money without Authorization (Negative)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {",
+											"    pm.response.to.have.status(401);",
+											"});",
+											"",
+											"pm.test(\"Unauthorized error message\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('message');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"from_account\": \"{{customer1Phone}}\",\n    \"to_account\": \"{{customer2Phone}}\",\n    \"amount\": 100\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/transaction/sendmoney",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"transaction",
+										"sendmoney"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC034 - Payment without Authorization (Negative)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {",
+											"    pm.response.to.have.status(401);",
+											"});",
+											"",
+											"pm.test(\"Unauthorized error message\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('message');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"from_account\": \"{{customer1Phone}}\",\n    \"to_account\": \"{{merchantPhone}}\",\n    \"amount\": 100\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/transaction/payment",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"transaction",
+										"payment"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC035 - Balance Check without Authorization (Negative)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {",
+											"    pm.response.to.have.status(401);",
+											"});",
+											"",
+											"pm.test(\"Unauthorized error message\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('message');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/transaction/balance/{{customer1Phone}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"transaction",
+										"balance",
+										"{{customer1Phone}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC036 - Transaction with Invalid Partner Key (Negative)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401 or 403\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([401, 403]);",
+											"});",
+											"",
+											"pm.test(\"Invalid partner key error\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('message');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "bearer {{adminToken}}"
+									},
+									{
+										"key": "X-AUTH-SECRET-KEY",
+										"value": "INVALID_PARTNER_KEY"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"from_account\": \"{{customer1Phone}}\",\n    \"to_account\": \"{{customer2Phone}}\",\n    \"amount\": 100\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/transaction/sendmoney",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"transaction",
+										"sendmoney"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Negative Cases - Invalid Data",
+					"item": [
+						{
+							"name": "TC037 - Transaction with Negative Amount (Negative)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"pm.test(\"Invalid amount error message\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('message');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "bearer {{adminToken}}"
+									},
+									{
+										"key": "X-AUTH-SECRET-KEY",
+										"value": "{{partnerKey}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"from_account\": \"{{customer1Phone}}\",\n    \"to_account\": \"{{customer2Phone}}\",\n    \"amount\": -100\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/transaction/sendmoney",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"transaction",
+										"sendmoney"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC038 - Transaction with Zero Amount (Negative)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"pm.test(\"Invalid amount error message\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('message');",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "bearer {{adminToken}}"
+									},
+									{
+										"key": "X-AUTH-SECRET-KEY",
+										"value": "{{partnerKey}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"from_account\": \"{{agentPhone}}\",\n    \"to_account\": \"{{customer2Phone}}\",\n    \"amount\": 0\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/transaction/deposit",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"transaction",
+										"deposit"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC039 - Transaction with String Amount (Negative)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"pm.test(\"Invalid amount data type error\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('message');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "bearer {{adminToken}}"
+									},
+									{
+										"key": "X-AUTH-SECRET-KEY",
+										"value": "{{partnerKey}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"from_account\": \"{{customer1Phone}}\",\n    \"to_account\": \"{{customer2Phone}}\",\n    \"amount\": \"invalid_amount\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/transaction/sendmoney",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"transaction",
+										"sendmoney"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC040 - Transaction with Missing Required Fields (Negative)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											"",
+											"pm.test(\"Missing required fields error\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('message');",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "bearer {{adminToken}}"
+									},
+									{
+										"key": "X-AUTH-SECRET-KEY",
+										"value": "{{partnerKey}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"from_account\": \"\",\n    \"to_account\": \"\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/transaction/deposit",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"transaction",
+										"deposit"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC041 - Transaction with Same From and To Account (Negative)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"pm.test(\"Same account error message\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('message');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "bearer {{adminToken}}"
+									},
+									{
+										"key": "X-AUTH-SECRET-KEY",
+										"value": "{{partnerKey}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"from_account\": \"{{customer1Phone}}\",\n    \"to_account\": \"{{customer1Phone}}\",\n    \"amount\": 100\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/transaction/sendmoney",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"transaction",
+										"sendmoney"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC042 - Transaction with Non-existent From Account (Negative)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											"",
+											"pm.test(\"User not found error message\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('message');",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "bearer {{adminToken}}"
+									},
+									{
+										"key": "X-AUTH-SECRET-KEY",
+										"value": "{{partnerKey}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"from_account\": \"86546743251\",\n    \"to_account\": \"{{customer1Phone}}\",\n    \"amount\": 100\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/transaction/deposit",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"transaction",
+										"deposit"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC043 - Transaction with Non-existent To Account (Negative)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											"",
+											"pm.test(\"User not found error message\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('message');",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "bearer {{adminToken}}"
+									},
+									{
+										"key": "X-AUTH-SECRET-KEY",
+										"value": "{{partnerKey}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"from_account\": \"{{customer1Phone}}\",\n    \"to_account\": \"64729183721\",\n    \"amount\": 100\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/transaction/sendmoney",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"transaction",
+										"sendmoney"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Negative Cases - Business Logic",
+					"item": [
+						{
+							"name": "TC044 - Transaction with Insufficient Balance (Negative)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 208 or 400\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([208, 400]);",
+											"});",
+											"",
+											"pm.test(\"Insufficient balance error message\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('message');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "bearer {{adminToken}}"
+									},
+									{
+										"key": "X-AUTH-SECRET-KEY",
+										"value": "{{partnerKey}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"from_account\": \"{{customer2Phone}}\",\n    \"to_account\": \"{{merchantPhone}}\",\n    \"amount\": 50000\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/transaction/payment",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"transaction",
+										"payment"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC045 - Large Amount Transaction (Negative)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400 or 208\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([400, 208]);",
+											"});",
+											"",
+											"pm.test(\"Transaction limit or insufficient balance error\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('message');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "bearer {{adminToken}}"
+									},
+									{
+										"key": "X-AUTH-SECRET-KEY",
+										"value": "{{partnerKey}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"from_account\": \"{{customer1Phone}}\",\n    \"to_account\": \"{{customer2Phone}}\",\n    \"amount\": 999999999\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/transaction/sendmoney",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"transaction",
+										"sendmoney"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC046 - Payment with Invalid Discount Code (Negative)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"pm.test(\"Invalid discount code error\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('message');",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "bearer {{adminToken}}"
+									},
+									{
+										"key": "X-AUTH-SECRET-KEY",
+										"value": "{{partnerKey}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"from_account\": \"{{customer1Phone}}\",\n    \"to_account\": \"{{merchantPhone}}\",\n    \"discount_code\": \"INVALID_CODE1#8401765238732\",\n    \"discount_amount\": 10,\n    \"amount\": 300\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/transaction/payment",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"transaction",
+										"payment"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Negative Cases - Query Operations",
+					"item": [
+						{
+							"name": "TC047 - Search Non-existent Transaction (Negative)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											"",
+											"pm.test(\"Transaction not found error message\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('message');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "bearer {{adminToken}}"
+									},
+									{
+										"key": "X-AUTH-SECRET-KEY",
+										"value": "{{partnerKey}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/transaction/search/INVALID_TXN_ID_123456",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"transaction",
+										"search",
+										"INVALID_TXN_ID_123456"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC048 - Balance Check for Non-existent User (Negative)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											"",
+											"pm.test(\"User not found error message\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('message');",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "bearer {{adminToken}}"
+									},
+									{
+										"key": "X-AUTH-SECRET-KEY",
+										"value": "{{partnerKey}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/transaction/balance/67214536279",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"transaction",
+										"balance",
+										"67214536279"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC049 - Statement for Non-existent User (Negative)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											"",
+											"pm.test(\"User not found error message\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('message');",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "bearer {{adminToken}}"
+									},
+									{
+										"key": "X-AUTH-SECRET-KEY",
+										"value": "{{partnerKey}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/transaction/statement/91725364751",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"transaction",
+										"statement",
+										"91725364751"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC050 - Transaction List with Invalid Limit (Negative)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"pm.test(\"Invalid limit parameter error\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('message');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "bearer {{adminToken}}"
+									},
+									{
+										"key": "X-AUTH-SECRET-KEY",
+										"value": "{{partnerKey}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/transaction/list?limit=-5",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"transaction",
+										"list"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "-5"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC051 - Search with Empty Transaction ID (Negative)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400 or 404\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([400, 404]);",
+											"});",
+											"",
+											"pm.test(\"Empty transaction ID error\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.error).to.have.property('message');",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "bearer {{adminToken}}"
+									},
+									{
+										"key": "X-AUTH-SECRET-KEY",
+										"value": "{{partnerKey}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/transaction/search/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"transaction",
+										"search",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC052 - Balance Check with Invalid Phone Format (Negative)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											"",
+											"pm.test(\"Invalid phone format error\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property('message');",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "bearer {{adminToken}}"
+									},
+									{
+										"key": "X-AUTH-SECRET-KEY",
+										"value": "{{partnerKey}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/transaction/balance/invalid_phone",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"transaction",
+										"balance",
+										"invalid_phone"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://dmoney.roadtocareer.net"
+		},
+		{
+			"key": "partnerKey",
+			"value": "ROADTOSDET"
+		},
+		{
+			"key": "adminToken",
+			"value": ""
+		},
+		{
+			"key": "agentPhone",
+			"value": ""
+		},
+		{
+			"key": "customer1Phone",
+			"value": ""
+		},
+		{
+			"key": "customer2Phone",
+			"value": ""
+		},
+		{
+			"key": "merchantPhone",
+			"value": ""
+		},
+		{
+			"key": "agentBalance",
+			"value": ""
+		},
+		{
+			"key": "customer1Balance",
+			"value": ""
+		},
+		{
+			"key": "customer2Balance",
+			"value": ""
+		},
+		{
+			"key": "merchantBalance",
+			"value": ""
+		},
+		{
+			"key": "systemDepositTrnxId",
+			"value": ""
+		},
+		{
+			"key": "agentDepositTrnxId",
+			"value": ""
+		},
+		{
+			"key": "sendMoneyTrnxId",
+			"value": ""
+		},
+		{
+			"key": "withdrawTrnxId",
+			"value": ""
+		},
+		{
+			"key": "paymentTrnxId",
+			"value": ""
+		}
+	]
+}

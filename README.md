@@ -2,7 +2,6 @@
 
 <div align="center">
 
-![DMoney Logo](./collection/newman_demoney.png)
 
 **A comprehensive fintech system for seamless money transactions**
 

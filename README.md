@@ -2,6 +2,7 @@
 
 <div align="center">
 
+![DMoney Logo](./collection/newman_demoney.png)
 
 **A comprehensive fintech system for seamless money transactions**
 
@@ -106,9 +107,7 @@ dmoney-newman-b16/
 ## 📎 Attachments
 
 ### Newman Test Execution Screenshot
-<div align="center">
-<img width="695" height="696" alt="Newman DMoney Test Execution Report" src="https://i.ibb.co.com/WW0nKhnD/newman-demoney.png"/>
-</div>
+![Newman Test Execution](./collection/newman_demoney.png)
 
 *Figure: Newman test execution showing the DMoney API testing results and comprehensive test coverage*
 

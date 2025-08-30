@@ -2,7 +2,6 @@
 
 <div align="center">
 
-![DMoney Logo](./collection/newman_demoney.png)
 
 **A comprehensive fintech system for seamless money transactions**
 
@@ -42,8 +41,8 @@ DMoney is a demo fintech system that enables seamless money transactions between
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/salmansrabon/dmoney-newman-b16.git
-   cd dmoney-newman-b16
+   git clone https://github.com/Jannatul206/Domoney_JFR-34185-batch-16.git
+   Domoney_JFR-34185-batch-16
    ```
 
 2. **Install dependencies**
@@ -108,7 +107,7 @@ dmoney-newman-b16/
 
 ### Newman Test Execution Screenshot
 <div align="center">
-<img width="695" height="696" alt="Newman DMoney Test Execution Report" src="https://postimg.cc/xXjS22M6"/>
+<img width="695" height="696" alt="Newman DMoney Test Execution Report" src="https://i.ibb.co.com/WW0nKhnD/newman-demoney.png"/>
 </div>
 
 *Figure: Newman test execution showing the DMoney API testing results and comprehensive test coverage*
